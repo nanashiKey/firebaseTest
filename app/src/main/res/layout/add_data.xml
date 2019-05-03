@@ -33,4 +33,19 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:textAlignment="center"/>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            >
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="show all data"
+                android:layout_gravity="bottom|center"
+                android:textSize="20dp"
+                android:id="@+id/tvshowData"
+                android:paddingBottom="30dp"
+        />
+    </LinearLayout>
 </LinearLayout>

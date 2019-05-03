@@ -28,6 +28,10 @@ class Add_Data_Act : AppCompatActivity() {
             val intent = Intent (this, ShowData::class.java)
             startActivity(intent)
         }
+        tvshowData.setOnClickListener {
+            val intent = Intent (this, ShowData::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun saveData() {
