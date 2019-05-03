@@ -1,10 +1,13 @@
-package irfan.sampling.latihanfirebaselogin
+package irfan.sampling.latihanfirebaselogin.Add_Data
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import irfan.sampling.latihanfirebaselogin.R
+import irfan.sampling.latihanfirebaselogin.ShowData
 import kotlinx.android.synthetic.main.add_data.*
 
 
@@ -22,6 +25,8 @@ class Add_Data_Act : AppCompatActivity() {
 
         btnSave.setOnClickListener {
             saveData()
+            val intent = Intent (this, ShowData::class.java)
+            startActivity(intent)
         }
     }
 
