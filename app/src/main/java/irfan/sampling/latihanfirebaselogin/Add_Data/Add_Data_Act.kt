@@ -21,11 +21,13 @@ class Add_Data_Act : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.add_data)
 
-        refDb = FirebaseDatabase.getInstance().getReference("USERS")
+        refDb = FirebaseDatabase.getInstance()
+            .getReference("USERS")
 
         btnSave.setOnClickListener {
             saveData()
-            val intent = Intent (this, ShowData::class.java)
+            val intent = Intent (this,
+                ShowData::class.java)
             startActivity(intent)
         }
         tvshowData.setOnClickListener {
@@ -42,8 +44,10 @@ class Add_Data_Act : AppCompatActivity() {
         val userId = refDb.push().key.toString()
         val user = Users(userId, nama, status)
 
-        refDb.child(userId).setValue(user).addOnCompleteListener{
-            Toast.makeText(this, "Successs",Toast.LENGTH_SHORT).show()
+        refDb.child(userId).setValue(user)
+            .addOnCompleteListener{
+            Toast.makeText(this,
+                "Successs",Toast.LENGTH_SHORT).show()
             inputNama.setText("")
             inputStatus.setText("")
         }

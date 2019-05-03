@@ -13,6 +13,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import irfan.sampling.latihanfirebaselogin.Add_Data.Add_Data_Act
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -82,6 +83,9 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Hello" +
                     "${user.displayName}",
                     Toast.LENGTH_SHORT).show()
+            val intent = Intent(this@MainActivity, Add_Data_Act::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 

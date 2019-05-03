@@ -22,23 +22,25 @@ class ShowData : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.show_data)
 
-        refDb = FirebaseDatabase.getInstance().getReference("USERS")
+        refDb = FirebaseDatabase.getInstance()
+            .getReference("USERS")
         list = mutableListOf()
         listView = findViewById(R.id.listView)
 
-        refDb.addValueEventListener(object : ValueEventListener{
+        refDb.addValueEventListener(
+            object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
             }
-
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0!!.exists()) {
-
                     list.clear()
                     for (h in p0.children) {
-                        val user = h.getValue(Users::class.java)
+                        val user = h.getValue(
+                            Users::class.java)
                         list.add(user!!)
                     }
-                    val adapter = Adapter(this@ShowData, R.layout.show_user, list)
+                    val adapter = Adapter(this@ShowData,
+                        R.layout.show_user, list)
                     listView.adapter = adapter
                 }
             }
