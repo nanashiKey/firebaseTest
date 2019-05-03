@@ -34,8 +34,9 @@ class Add_Data_Act : AppCompatActivity() {
         val nama = inputNama.text.toString()
         val status = inputStatus.text.toString()
 
-        val user = Users(nama, status)
+
         val userId = refDb.push().key.toString()
+        val user = Users(userId, nama, status)
 
         refDb.child(userId).setValue(user).addOnCompleteListener{
             Toast.makeText(this, "Successs",Toast.LENGTH_SHORT).show()

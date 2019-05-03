@@ -33,11 +33,12 @@ class ShowData : AppCompatActivity() {
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0!!.exists()) {
 
+                    list.clear()
                     for (h in p0.children) {
                         val user = h.getValue(Users::class.java)
                         list.add(user!!)
                     }
-                    val adapter = Adapter(applicationContext, R.layout.show_user, list)
+                    val adapter = Adapter(this@ShowData, R.layout.show_user, list)
                     listView.adapter = adapter
                 }
             }
