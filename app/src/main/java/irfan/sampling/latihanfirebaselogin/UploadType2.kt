@@ -12,9 +12,12 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.webkit.MimeTypeMap
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.upload_type_2.*
@@ -36,6 +39,7 @@ class UploadType2 : AppCompatActivity() {
     lateinit var filepath : Uri
     lateinit var storage : FirebaseStorage
     lateinit var storageReference: StorageReference
+    lateinit var dbref : DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +49,7 @@ class UploadType2 : AppCompatActivity() {
         imgView = findViewById(R.id.imgView)
         storage = FirebaseStorage.getInstance()
         storageReference = storage.reference
+        dbref = FirebaseDatabase.getInstance().getReference("IMAGES")
 
         btnChoose.setOnClickListener {
             when {
@@ -72,6 +77,11 @@ class UploadType2 : AppCompatActivity() {
 
         btnUpload.setOnClickListener {
             uploadImage()
+        }
+
+        btnSHOW.setOnClickListener {
+            val intent = Intent(this@UploadType2, DisplaysAllImage::class.java)
+            startActivity(intent)
         }
     }
 
@@ -115,14 +125,24 @@ class UploadType2 : AppCompatActivity() {
             setCanceledOnTouchOutside(false)
             show()
         }
+        val namee = UUID.randomUUID().toString()
         var ref : StorageReference =
-            storageReference.child("images/"
-                    +UUID.randomUUID().toString())
+            storageReference.child("images/"+namee+"."+GetFileExtension(filepath)
+            )
         ref.putFile(filepath)
             .addOnSuccessListener {
                 taskSnapshot -> progress.dismiss()
                 Toast.makeText(this@UploadType2,
                 "Uploaded", Toast.LENGTH_SHORT).show();
+                val imageUploadInfo = ImageUploadInfo(namee,
+                    taskSnapshot.storage.bucket
+                )
+
+                // Getting image upload ID.
+                val ImageUploadId = dbref.push().getKey()
+
+                // Adding image upload id s child element into databaseReference.
+                dbref.child(ImageUploadId!!).setValue(imageUploadInfo)
             }
             .addOnFailureListener{
                 e -> progress.dismiss()
@@ -158,5 +178,16 @@ class UploadType2 : AppCompatActivity() {
                     chooseImage()
             }
         }
+    }
+
+    internal fun GetFileExtension(uri: Uri): String? {
+
+        val contentResolver = contentResolver
+
+        val mimeTypeMap = MimeTypeMap.getSingleton()
+
+        // Returning the file Extension.
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri))
+
     }
 }

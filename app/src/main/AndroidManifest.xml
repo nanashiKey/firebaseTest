@@ -21,6 +21,7 @@
         </activity>
         <activity android:name=".ShowData"/>
         <activity android:name=".Add_Data.Add_Data_Act"/>
+        <activity android:name=".DisplaysAllImage"/>
     </application>
 
 </manifest>
